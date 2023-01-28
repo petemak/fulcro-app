@@ -1,5 +1,6 @@
 
 
+
 (ns app.ui
   (:require [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
             [com.fulcrologic.fulcro.dom :as dom]))
@@ -14,24 +15,40 @@
 ;;-----------------------------------------------------------
 ;; Person component
 ;; Data is passed by destructuring the second argument of defsc
+;; Initial state co-locates the initial desired part of the tree
+;; with the component that uses it, here id, name and age
+;;
+;; :initial-state: starting initial state.
+;;    a lambda that gets parameters (optionally from the parent)
+;;    and returns a map representing the state of the component.
+;; :query: For each scalar property in initial state,
+;; there should be an identical simple property in your query.
+;;
 ;;-----------------------------------------------------------
 (defsc Person [this {:person/keys [id name age]}]
-  {:initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})}
+  {:query [:person/id :person/name :person/age]
+   :initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})   }
+  
   (dom/div
    (dom/p "Id: " id)
    (dom/p "Name: " name)
    (dom/p "Age: " age)))
 
-
+;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
 
 
 ;;-----------------------------------------------------------
 ;; Person list component
 ;; prints out a list of people
+;;
+;; :initial-state
+;; :query a scalar label and a join for people that composes in Person
+;;
 ;;-----------------------------------------------------------
 (defsc PersonList [this {:list/keys [label people]}]
-  {:initial-state (fn [{:keys [label]}] {:list/label label
+  {:query [:list/label {:list/people (comp/get-query Person)} ]
+   :initial-state (fn [{:keys [label]}] {:list/label label
                                          :list/people (if (= label "Friends")
                                                         [(comp/get-initial-state Person {:id 1 :name "Sally" :age 32})
                                                          (comp/get-initial-state Person {:id 2 :name "Joe"   :age 41})]
@@ -50,19 +67,23 @@
 ;; Root component
 ;;-----------------------------------------------------------
 (defsc Root [this {:keys [friends enemies]}]
-  {:initial-state (fn [params] {:friends (comp/get-initial-state PersonList {:label "Friends"})
+  {:query [{:friends (comp/get-query PersonList)}
+           {:enemies (comp/get-query PersonList)}]
+   :initial-state (fn [params] {:friends (comp/get-initial-state PersonList {:label "Friends"})
                                 :enemies (comp/get-initial-state PersonList {:label "Enemies"})})}
   (dom/div
-   (dom/h2 "Fulcro Basic Fullstack Application")
+   (dom/h2 "Basic Fullstack Application based on Fulcro")
    (dom/hr)
    (dom/div
-    (dom/h3 "Tech Stack:")
+    (dom/h3 "Tech Stack")
     (dom/ul
      (dom/li "Clojure - https://clojure.org/")
      (dom/li "ClojureScript - https://clojurescript.org/")
      (dom/li "Fulcro - http://fulcro.fulcrologic.com")
      (dom/li "Shadow-cljs - https://github.com/thheller/shadow-cljs")
-     (dom/li "Pathom/EQL - https://pathom3.wsscode.com")))
+     (dom/li "Pathom/EQL - https://pathom3.wsscode.com"))
+    (dom/text "The stack is intended to enable the \"quick development story \", that is,
+               getting hot code reload to update the UI whenever source code changes."))
    (dom/hr)
    (dom/div
     (ui-person-list friends )

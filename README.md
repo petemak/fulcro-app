@@ -1,12 +1,16 @@
 # Basic Fulcro Application
-### Based on the *Fulcro Ddeeloper Guide*
+### Created while following along on the *Fulcro Developer Guide found at: * https://book.fulcrologic.com/
 
-**Shows use of:**
+
+**Shows use of** the following stack to build sull-stack web application in a dynamic short feedback loop:
   * Clojure - https://clojure.org/
   * ClojureScript - https://clojurescript.org/
   * Fulcro - http://fulcro.fulcrologic.com
   * Shadow-cljs - https://github.com/thheller/shadow-cljs
   * Pathom/EQL - https://pathom3.wsscode.com
+
+The stack is intended to enable the "quick development story",
+that is getting hot code reload to update the UI whenever source code changes. 
 
 ###
 **Running the project**
