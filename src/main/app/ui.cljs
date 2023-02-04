@@ -25,14 +25,12 @@
 ;; there should be an identical simple property in your query.
 ;;
 ;;-----------------------------------------------------------
-(defsc Person [this {:person/keys [id name age]}]
+(defsc Person [this {:person/keys [id name age]} {:keys [onDelete]}]
   {:query [:person/id :person/name :person/age]
    :initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})   }
   
-  (dom/div
-   (dom/p "Id: " id)
-   (dom/p "Name: " name)
-   (dom/p "Age: " age)))
+  (dom/li
+   (dom/h5 (str  "User " id ":    " name "    " age " -  ") (dom/button {:onClick  #(onDelete name)} "x") )))
 
 ;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
@@ -54,11 +52,13 @@
                                                          (comp/get-initial-state Person {:id 2 :name "Joe"   :age 41})]
                                                         [(comp/get-initial-state Person {:id 3 :name "Fred"  :age 28})
                                                          (comp/get-initial-state Person {:id 4 :name "Boby"  :age 55} )])} )}
-  (dom/div
-   (dom/h3 "List: " label)
-   (dom/h4 "Element count: " (count people))
-   (dom/ul
-    (map ui-person people))))
+
+  (let [delete-person (fn [name] (println "deleting " name  " from " label))]
+   (dom/div
+    (dom/h3 "List: " label)
+    (dom/h4 "Element count: " (count people))
+    (dom/ul
+     (map (fn [p] (ui-person (comp/computed p {:onDelete delete-person}))) people)))))
 
 (def ui-person-list (comp/factory PersonList))
 

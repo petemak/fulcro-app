@@ -1,7 +1,8 @@
 {:paths   ["src/main" "resources"]
  :deps    {org.clojure/clojure    {:mvn/version "1.11.1"}
            com.fulcrologic/fulcro {:mvn/version "3.5.32"}
-           arttuka/reagent-material-ui {:mvn/version "5.10.1-0"}}
+           ;;arttuka/reagent-material-ui {:mvn/version "5.10.1-0"}
+           bulma-cljs/bulma-cljs {:mvn/version "0.1.4"}}
 
  :aliases {:dev {:extra-paths ["src/dev"]
                  :extra-deps  {org.clojure/clojurescript   {:mvn/version "1.11.60"}
