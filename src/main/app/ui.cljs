@@ -3,9 +3,10 @@
 
 (ns app.ui
   (:require [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
-            [com.fulcrologic.fulcro.dom :as dom]))
+            [com.fulcrologic.fulcro.dom :as dom]
+            [app.mutations :as api]))
 
-
+;;
 (def ui-data {:friends {:list/label "Friends"
                         :list/people [{:person/id 1 :person/name "sally" :person/age 32}
                                       {:person/id 2 :person/name "Joe"   :person/age 41}]}
@@ -30,7 +31,7 @@
    :initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})   }
   
   (dom/li
-   (dom/h5 (str  "User " id ":    " name "    " age " -  ") (dom/button {:onClick  #(onDelete name)} "x") )))
+   (dom/h5 (str  "User " id ":    " name "    " age " -  ") (dom/button {:onClick  #(onDelete id)} "x") )))
 
 ;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
@@ -53,7 +54,7 @@
                                                         [(comp/get-initial-state Person {:id 3 :name "Fred"  :age 28})
                                                          (comp/get-initial-state Person {:id 4 :name "Boby"  :age 55} )])} )}
 
-  (let [delete-person (fn [name] (println "deleting " name  " from " label))]
+  (let [delete-person (fn [id] (comp/transact! this [(api/delete-person {:id id :list-name label})]))]
    (dom/div
     (dom/h3 "List: " label)
     (dom/h4 "Element count: " (count people))
