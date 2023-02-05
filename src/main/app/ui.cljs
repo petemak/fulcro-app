@@ -1,6 +1,4 @@
 
-
-
 (ns app.ui
   (:require [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
             [com.fulcrologic.fulcro.dom :as dom]
@@ -31,7 +29,7 @@
    :initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})   }
   
   (dom/li
-   (dom/h5 (str  "User " id ":    " name "    " age " -  ") (dom/button {:onClick  #(onDelete id)} "x") )))
+   (dom/h5 (str  "User " id ":    " name "    " age " -  ") (dom/button :.is-danger {:onClick  #(onDelete id)} "x")  )))
 
 ;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
@@ -73,19 +71,37 @@
    :initial-state (fn [params] {:friends (comp/get-initial-state PersonList {:label "Friends"})
                                 :enemies (comp/get-initial-state PersonList {:label "Enemies"})})}
   (dom/div
-   (dom/h2 "Basic Fullstack Application based on Fulcro")
+   (dom/h2 :.title.is-2 "Basic Fullstack Application based on Fulcro")
    (dom/hr)
-   (dom/div
-    (dom/h3 "Tech Stack")
-    (dom/ul
-     (dom/li "Clojure - https://clojure.org/")
-     (dom/li "ClojureScript - https://clojurescript.org/")
-     (dom/li "Fulcro - http://fulcro.fulcrologic.com")
-     (dom/li "Shadow-cljs - https://github.com/thheller/shadow-cljs")
-     (dom/li "Pathom/EQL - https://pathom3.wsscode.com"))
-    (dom/text "The stack is intended to enable the \"quick development story \", that is,
-               getting hot code reload to update the UI whenever source code changes."))
-   (dom/hr)
+   (dom/article :.panel.is-info
+    (dom/p :.panel-heading "Tech Stack")
+    (dom/a :.panel-block.is-active
+           (dom/span :.panel-icon
+                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
+           "Clojure - https://clojure.org/")
+    (dom/a :.panel-block
+           (dom/span :.panel-icon
+                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
+           "ClojureScript - https://clojurescript.org/")
+
+    (dom/a :.panel-block
+           (dom/span :.panel-icon
+                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
+           "Fulcro - http://fulcro.fulcrologic.com")
+
+    (dom/a :.panel-block
+           (dom/span :.panel-icon
+                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
+           "Shadow-cljs - https://github.com/thheller/shadow-cljs")
+
+    (dom/a :.panel-block
+           (dom/span :.panel-icon
+                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
+           "Pathom/EQL - https://pathom3.wsscode.com"))
+   
+   (dom/div :.box "The stack is intended to enable the \"quick development story \", that is,
+               getting hot code reload to update the UI whenever source code changes.")
+
    (dom/div
     (ui-person-list friends )
     (ui-person-list enemies))))
