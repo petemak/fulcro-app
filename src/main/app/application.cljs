@@ -7,3 +7,9 @@
 ;; Fulcro application
 ;;-----------------------------------------------------------
 (defonce fapp (app/fulcro-app))
+
+
+(comment
+  (keys fapp)
+
+  )

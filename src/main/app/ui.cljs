@@ -29,7 +29,9 @@
    :initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})   }
   
   (dom/li
-   (dom/h5 (str  "User " id ":    " name "    " age " -  ") (dom/button :.is-danger {:onClick  #(onDelete id)} "x")  )))
+   (dom/p :.title.is-4 name)
+   (dom/p :.title.is-6 (str  "ID: " id " -  Age: " age))
+   (dom/button :.button.is-danger.is-light {:onClick  #(onDelete id)} "X" )))
 
 ;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
@@ -53,7 +55,7 @@
                                                          (comp/get-initial-state Person {:id 4 :name "Boby"  :age 55} )])} )}
 
   (let [delete-person (fn [id] (comp/transact! this [(api/delete-person {:id id :list-name label})]))]
-   (dom/div
+   (dom/div :.content.is-normal
     (dom/h3 "List: " label)
     (dom/h4 "Element count: " (count people))
     (dom/ul
@@ -71,38 +73,25 @@
    :initial-state (fn [params] {:friends (comp/get-initial-state PersonList {:label "Friends"})
                                 :enemies (comp/get-initial-state PersonList {:label "Enemies"})})}
   (dom/div
-   (dom/h2 :.title.is-2 "Basic Fullstack Application based on Fulcro")
-   (dom/hr)
-   (dom/article :.panel.is-info
-    (dom/p :.panel-heading "Tech Stack")
-    (dom/a :.panel-block.is-active
-           (dom/span :.panel-icon
-                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
-           "Clojure - https://clojure.org/")
-    (dom/a :.panel-block
-           (dom/span :.panel-icon
-                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
-           "ClojureScript - https://clojurescript.org/")
-
-    (dom/a :.panel-block
-           (dom/span :.panel-icon
-                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
-           "Fulcro - http://fulcro.fulcrologic.com")
-
-    (dom/a :.panel-block
-           (dom/span :.panel-icon
-                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
-           "Shadow-cljs - https://github.com/thheller/shadow-cljs")
-
-    (dom/a :.panel-block
-           (dom/span :.panel-icon
-                     (dom/i :.fas.fa-book {:style {:aria-hidden "true"}}))
-           "Pathom/EQL - https://pathom3.wsscode.com"))
-   
-   (dom/div :.box "The stack is intended to enable the \"quick development story \", that is,
+   (dom/div :.block
+            (dom/h2 :.title.is-2 "Basic Fullstack Application based on Fulcro"))
+   (dom/div :.block
+            (dom/div :.content
+                        (dom/h3 :.subtitle "Tech Stack")
+                        (dom/p "The stack is intended to enable the \"quick development story \", that is,
                getting hot code reload to update the UI whenever source code changes.")
+                        (dom/ul
+                         (dom/li  "Clojure - https://clojure.org/")
+                         (dom/li  "ClojureScript - https://clojurescript.org/")
+                         (dom/li  "Fulcro - http://fulcro.fulcrologic.com")
+                         (dom/li  "Shadow-cljs - https://github.com/thheller/shadow-cljs")
+                         (dom/li  "Pathom/EQL - https://pathom3.wsscode.com"))))
+   
 
-   (dom/div
-    (ui-person-list friends )
-    (ui-person-list enemies))))
+   (dom/div :.block
+            (dom/div :.columns
+                     (dom/div :.column.is-half
+                              (ui-person-list friends ))
+                     (dom/div :.column.is-half
+                              (ui-person-list enemies))))))
 
