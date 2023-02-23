@@ -16,13 +16,17 @@ that is getting hot code reload to update the UI whenever source code changes.
 **Running the project**
 + Go to root directory fulcro-app
 + Install dependencies ..shadow-cljs, REACT, etc
-  _$ npm install shadow-cljs react react-dom --save_
+  ...
+  $ npm install shadow-cljs react react-dom --save
+  ...
 
-+ Launch shadow-cljs, HTTP  and nREPL servers 
-  _$ npx shadow-cljs server_
++ Launch shadow-cljs, HTTP  and nREPL servers
+  ...
+  $ npx shadow-cljs server
+  ...
   
 + Open shadow-cljs build UI on http://localhost:9630
 + Got to **Build** -> **main** -> and **watch**
 + view UI on HTTP server on http://localhost:8000
 + Eventually connect IDE to REPL sever on port 9000
- > alt-x cider-connect-clj ...
+ > Alt-x cider-connect-cljs ...
