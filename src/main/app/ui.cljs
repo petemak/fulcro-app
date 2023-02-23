@@ -27,11 +27,24 @@
 (defsc Person [this {:person/keys [id name age]} {:keys [onDelete]}]
   {:query [:person/id :person/name :person/age]
    :initial-state (fn [{:keys [id name age]}] {:person/id id :person/name name :person/age age})   }
-  
-  (dom/li
-   (dom/p :.title.is-4 name)
-   (dom/p :.title.is-6 (str  "ID: " id " -  Age: " age))
-   (dom/button :.button.is-danger.is-light {:onClick  #(onDelete id)} "X" )))
+  (comment 
+    
+    (dom/li
+     (dom/p :.title.is-4 name)
+     (dom/p :.title.is-6 (str  "ID: " id " -  Age: " age) (dom/button :.button.is-danger.is-light {:onClick  #(onDelete id)} "x" ))
+     ))
+
+  (dom/nav :.level
+           (dom/div :.level-left.has-text-left
+                    (dom/div :.level-item
+                             (dom/div
+                              (dom/p :.title  name)
+                              (dom/p :.subtitle.is-5 (str "ID: " id " - ") (str "Age: " age))))
+                    (dom/div :.level-item
+                              (dom/button :.button.is-danger.is-light {:onClick  #(onDelete id)} "x" ))
+                    ))
+
+  )
 
 ;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
@@ -50,9 +63,10 @@
    :initial-state (fn [{:keys [label]}] {:list/label label
                                          :list/people (if (= label "Friends")
                                                         [(comp/get-initial-state Person {:id 1 :name "Sally" :age 32})
-                                                         (comp/get-initial-state Person {:id 2 :name "Joe"   :age 41})]
-                                                        [(comp/get-initial-state Person {:id 3 :name "Fred"  :age 28})
-                                                         (comp/get-initial-state Person {:id 4 :name "Boby"  :age 55} )])} )}
+                                                         (comp/get-initial-state Person {:id 2 :name "Joe"   :age 41})
+                                                         (comp/get-initial-state Person {:id 3 :name "Mark"  :age 36})]
+                                                        [(comp/get-initial-state Person {:id 4 :name "Fred"  :age 28})
+                                                         (comp/get-initial-state Person {:id 5 :name "Boby"  :age 55} )])} )}
 
   (let [delete-person (fn [id] (comp/transact! this [(api/delete-person {:id id :list-name label})]))]
    (dom/div :.content.is-normal
@@ -79,7 +93,7 @@
             (dom/div :.content
                         (dom/h3 :.subtitle "Tech Stack")
                         (dom/p "The stack is intended to enable the \"quick development story \", that is,
-               getting hot code reload to update the UI whenever source code changes.")
+                                getting hot code reload to update the UI whenever source code changes.")
                         (dom/ul
                          (dom/li  "Clojure - https://clojure.org/")
                          (dom/li  "ClojureScript - https://clojurescript.org/")
@@ -87,7 +101,6 @@
                          (dom/li  "Shadow-cljs - https://github.com/thheller/shadow-cljs")
                          (dom/li  "Pathom/EQL - https://pathom3.wsscode.com"))))
    
-
    (dom/div :.block
             (dom/div :.columns
                      (dom/div :.column.is-half
