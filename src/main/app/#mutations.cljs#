@@ -19,6 +19,7 @@
 (defmutation delete-person
   "Improved function that does not need global knowledge about structure of UI.
    Delete person with specied if from specified list id"
-  [{list-id :list/id person-id :person/id}]
+  [{list-id :list/id
+    person-id :person/id}]
   (action [{:keys [state]}]
           (swap! state merge/remove-ident* [:person/id person-id] [:list/id list-id :list/people])))
