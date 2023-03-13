@@ -78,16 +78,33 @@
  ;; => {:enemies #:list{:id :enemies}}
 
  (api-parser [{:enemies [:list/id {:list/people [:person/id]}]}])
- ;; => {:enemies #:list{:id :enemies, :people [#:person{:id [4 5]}]}}
+ ;; => {:enemies
+ ;;     #:list{:id :enemies, :people [#:person{:id 4} #:person{:id 5}]}}
+
 
  (api-parser [{:enemies [:list/id :list/label]}])
  ;; => {:enemies #:list{:id :enemies, :label "Enemies"}}
   
  (api-parser [{:enemies [:list/id {:list/people [:person/name]}]}])
- ;; => {:enemies #:list{:id :enemies, :people [{}]}}
+ ;; => {:enemies
+ ;;     #:list{:id :enemies,
+ ;;            :people [#:person{:name "Helene"}
+ ;;                     #:person{:name "Fred"}]}}
 
+ (api-parser [{:enemies [:list/id :list/label {:list/people [:person/id :person/name :person/age]}]}])
+ ;; => {:enemies
+ ;;     #:list{:id :enemies,
+ ;;            :label "Enemies",
+ ;;            :people
+ ;;            [#:person{:id 4, :name "Helene", :age 33}
+ ;;             #:person{:id 5, :name "Fred", :age 27}]}}
  
  (api-parser [{[:list/id :enemies] [:list/id {:list/people [:person/id :person/name :person/age]}]}])
+ ;; => {[:list/id :enemies]
+ ;;     #:list{:id :enemies,
+ ;;            :people
+ ;;            [#:person{:id 4, :name "Helene", :age 33}
+ ;;             #:person{:id 5, :name "Fred", :age 27}]}}
  ;; => {:enemies #:list{:id :enemies, :people [#:person{:id [4 5]}]}}
 
   

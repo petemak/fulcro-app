@@ -46,6 +46,7 @@
 
   )
 
+
 ;; Element factory
 (def ui-person (comp/factory Person {:keyfn :person/id}))
 
