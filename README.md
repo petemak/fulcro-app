@@ -13,7 +13,7 @@ The stack is intended to enable the "quick development story",
 that is getting hot code reload to update the UI whenever source code changes. 
 
 ###
-**Running the project**
+**Running the UI/CLJS project**
 + Go to root directory fulcro-app
 + Install dependencies ..shadow-cljs, REACT, etc
 
@@ -32,3 +32,11 @@ that is getting hot code reload to update the UI whenever source code changes.
 + view UI on HTTP server on http://localhost:8000
 + Eventually connect IDE to REPL sever on port 9000
  > Alt-x cider-connect-cljs ...
+
+**Running the backend/CLJ project**
++ Opne a REPL or cider-jack-in 
+* The HTTP server is implemented in _server.clj_ and can be started with by calling the _start_ function during development
+  The start function is conveniently placed in the dev/user.clj and loaded at start of the REPL
+     user> (start)
+     2023-03-19T17:57:32.616Z Ideapad5iPro INFO [app.server:49] - Starting server on port 3000...
++ The applicaiton is then available http://localhost:3000/index.html
