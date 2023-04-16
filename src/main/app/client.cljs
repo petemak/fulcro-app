@@ -15,9 +15,10 @@
   (app/mount! fapp ui/Root "app")
 
   ;; nitial load during application startup
+  (js/console.log "::-> app.client - loading application data...")
   (df/load! fapp :friends ui/PersonList)
   (df/load! fapp :enemies ui/PersonList)
-  (js/console.log "Applicatiob loaded"))
+  (js/console.log "::-> app.client - application data loaded!"))
 
 
 ;;-----------------------------------------------------------

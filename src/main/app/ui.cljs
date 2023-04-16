@@ -71,7 +71,6 @@
 (defsc Root [this {:keys [friends enemies]}]
   {:query [{:friends (comp/get-query PersonList)}
            {:enemies (comp/get-query PersonList)}]
-   
    :initial-state {}}
   
   (dom/div
@@ -93,9 +92,11 @@
            
             (dom/div :.columns
                      (dom/div :.column.is-half
+                              (dom/h4 "Friends: " friends)
                               (when friends
                                 (ui-person-list friends )))
                      (dom/div :.column.is-half
+                              (dom/h4  "Enemies: " enemies)
                               (when enemies  
                                 (ui-person-list enemies)))))))
 

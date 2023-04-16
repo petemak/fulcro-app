@@ -9,3 +9,9 @@
 ;;-----------------------------------------------------------
 (defonce fapp (app/fulcro-app
                {:remotes {:remote (http/fulcro-http-remote {})}}))
+
+(comment
+
+  (type fapp)
+
+  )

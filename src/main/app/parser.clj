@@ -39,7 +39,7 @@
 ;; ----------------------------------------------------
 ;; Try out api-parser
 ;; ----------------------------------------------------
-(Comment
+(comment
  (api-parser [{[:person/id 1] [:person/name]}])
  ;; => {[:person/id 1] #:person{:name "Sally"}}
 

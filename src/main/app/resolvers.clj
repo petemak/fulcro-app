@@ -50,4 +50,4 @@
 ;; ------------------------------------------------------------------
 ;; Resolvers
 ;; ------------------------------------------------------------------
-(def resolver-list [person-resolver list-resolver, friends-resolver enemies-resolver])
+(def resolver-list [person-resolver list-resolver friends-resolver enemies-resolver])
